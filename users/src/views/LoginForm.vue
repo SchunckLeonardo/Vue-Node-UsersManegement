@@ -61,7 +61,7 @@ export default {
             this.password = ''
             let token = res.data.token
             localStorage.setItem('token', token)
-            this.$router.push({path: '/'})
+            this.$router.push({path: '/admin/users'})
         })
         .catch((err) => {
           let msgError = err.response.data.err;
