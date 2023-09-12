@@ -32,12 +32,19 @@
     >
       <div>Usuário registrado com sucesso</div>
     </div>
-    <div v-if="isError != undefined" class="alert alert-danger d-flex align-items-center" role="alert">
-      <div>{{isError}}</div>
+    <div
+      v-if="isError != undefined"
+      class="alert alert-danger d-flex align-items-center"
+      role="alert"
+    >
+      <div>{{ isError }}</div>
     </div>
-    <button class="btn btn-success w-100 btn-lg" @click="register">
+    <button class="btn btn-success w-100 btn-lg mb-3" @click="register">
       Cadastrar
     </button>
+    <p class="text-end">
+      Já tem uma conta? <button @click="redirectLogin" class="btnLogin">Logar</button>
+    </p>
   </div>
 </template>
 
@@ -51,7 +58,7 @@ export default {
       email: "",
       password: "",
       isCorrect: false,
-      isError: undefined
+      isError: undefined,
     };
   },
   methods: {
@@ -70,21 +77,31 @@ export default {
           this.email = "";
           this.password = "";
           this.isCorrect = true;
-          this.isError = undefined
-          this.$router.push({path: '/'})
+          this.isError = undefined;
+          this.$router.push({ path: "/" });
           setTimeout(() => {
             this.isCorrect = false;
           }, 5000);
         })
         .catch((err) => {
           let msgError = err.response.data.err;
-          this.isError = msgError
+          this.isError = msgError;
           console.log(msgError);
         });
     },
+    redirectLogin() {
+      this.$router.push({path: '/login'})
+    }
   },
 };
 </script>
-
+  
 <style>
+.btnLogin {
+  outline: none;
+  border: none;
+  text-decoration: underline;
+  background: none;
+  color: blue;
+}
 </style>
