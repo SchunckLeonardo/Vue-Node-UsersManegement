@@ -32,8 +32,8 @@
     >
       <div>Usuário registrado com sucesso</div>
     </div>
-    <div v-if="isError" class="alert alert-danger d-flex align-items-center" role="alert">
-      <div>{{msgErr}}</div>
+    <div v-if="isError != undefined" class="alert alert-danger d-flex align-items-center" role="alert">
+      <div>{{isError}}</div>
     </div>
     <button class="btn btn-success w-100 btn-lg" @click="register">
       Cadastrar
@@ -51,8 +51,7 @@ export default {
       email: "",
       password: "",
       isCorrect: false,
-      msgErr: '',
-      isError: false
+      isError: undefined
     };
   },
   methods: {
@@ -71,15 +70,15 @@ export default {
           this.email = "";
           this.password = "";
           this.isCorrect = true;
-          this.isError = false
+          this.isError = undefined
+          this.$router.push({path: '/'})
           setTimeout(() => {
             this.isCorrect = false;
           }, 5000);
         })
         .catch((err) => {
           let msgError = err.response.data.err;
-          this.msgErr = msgError
-          this.isError = true
+          this.isError = msgError
           console.log(msgError);
         });
     },
