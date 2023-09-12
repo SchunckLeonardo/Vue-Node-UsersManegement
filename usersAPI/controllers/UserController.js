@@ -160,6 +160,18 @@ class UserController {
 
     async login(req, res) {
         let {email, password} = req.body
+
+        if (Validation.fieldValidation(email)) {
+            res.status(400)
+            res.json({ err: "O e-mail é inválido!" })
+            return
+        }
+
+        if (Validation.fieldValidation(password)) {
+            res.status(400)
+            res.json({ err: "A senha é inválida!" })
+            return
+        }
         
         let user = await User.findByEmail(email)
 

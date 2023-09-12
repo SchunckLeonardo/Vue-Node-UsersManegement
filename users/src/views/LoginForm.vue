@@ -24,34 +24,60 @@
     >
       <div>{{ isError }}</div>
     </div>
-    <button class="btn btn-success w-100 btn-lg mb-3">Logar</button>
-    <p class="text-end">Não tem uma conta? <button class="btnRegister" @click="redirectRegister">Registrar-se</button></p>
+    <button @click="login" class="btn btn-success w-100 btn-lg mb-3">Logar</button>
+    <p class="text-end">
+      Não tem uma conta?
+      <button class="btnRegister" @click="redirectRegister">
+        Registrar-se
+      </button>
+    </p>
   </div>
 </template>
 
 <script>
+import axios from "axios";
+
 export default {
-    data() {
-        return {
-            email: '',
-            password: '',
-            isError: undefined
-        }
+  data() {
+    return {
+      email: "",
+      password: "",
+      isError: undefined,
+    };
+  },
+  methods: {
+    redirectRegister() {
+      this.$router.push({ path: "/register" });
     },
-    methods: {
-        redirectRegister() {
-            this.$router.push({path: '/register'})
-        }
-    }
-}
+    login() {
+      let user = {
+        email: this.email,
+        password: this.password,
+      };
+      axios
+        .post("http://localhost:8686/login", user)
+        .then((res) => {
+            this.email = ''
+            this.password = ''
+            let token = res.data.token
+            localStorage.setItem('token', token)
+            this.$router.push({path: '/'})
+        })
+        .catch((err) => {
+          let msgError = err.response.data.err;
+          this.isError = msgError;
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
-    .btnRegister {
-        outline: none;
-        border: none;
-        text-decoration: underline;
-        background: none;
-        color: blue;
-    }
+.btnRegister {
+  outline: none;
+  border: none;
+  text-decoration: underline;
+  background: none;
+  color: blue;
+}
 </style>
