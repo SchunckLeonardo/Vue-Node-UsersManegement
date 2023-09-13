@@ -46,6 +46,12 @@ const routes = [
     name: 'Users',
     component: () => import('../views/AdminPanel.vue'),
     beforeEnter: AdminAuth
+  },
+  {
+    path: '/admin/edit/:id',
+    name: 'EditUsers',
+    component: () => import('../views/EditUser.vue'),
+    beforeEnter: AdminAuth
   }
 ]
 
